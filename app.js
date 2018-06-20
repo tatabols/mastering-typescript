@@ -224,6 +224,112 @@ classWithoutStaticProps3.id = 555;
 let c = classWithoutStaticProps3.displayId()
 l(c)
 
+l('// Interface Inheritance')
+interface IBase {
+  id: number
+}
+
+interface IDerivedFromBase extends IBase{
+  name: string
+}
+
+class InterfaceInheritance implements IDerivedFromBase {
+  id: number;
+  name: string;
+}
+
+class BaseClass implements IBase {
+  id: number;
+}
+
+class DerivedFromBaseClass extends BaseClass implements IDerivedFromBase{
+  name: string
+}
+
+let x = new DerivedFromBaseClass();
+x.id = 123;
+x.name = 'char';
+
+l(x.id)
+l(x.name);
+
+l('// super')
+class BaseClassWithConstructor {
+  protected id: number;
+  public id2: number;
+
+  constructor(_id: number) {
+    this.id = _id;
+  }
+}
+
+let a = new BaseClassWithConstructor(1123);
+a.id2 = 123; //only not protected props not visible
+l(a.id2);
+
+class DerivedFromBaseClassWithConstructor extends BaseClassWithConstructor {
+  private name: string;
+
+  constructor(_id: number, _name: string) {
+    super(_id);
+
+    this.name = _name;
+  }
+
+  displayName(): void {
+    l(`${this.id}, ${this.name}`) //protected props from super (id) is visible
+  }
+}
+
+let b = new DerivedFromBaseClassWithConstructor(456, 'bora');
+b.displayName(); //only not protected inherited props not visible
+
+l('// function overloading')
+class BaseClassWithFunction {
+  protected id: number;
+
+  constructor(_id: number) {
+    this.id = _id;
+  }
+
+  getProperties(): string {
+    return this.id.toString();
+  }
+}
+
+// function overloading without contructor - no need to call super
+class DerivedFromBaseClassWithFunction extends BaseClassWithFunction {
+  name: string;
+
+  getProperties(): string {
+    return `${this.name}, ${super.getProperties()}`;
+  }
+}
+
+let q = new DerivedFromBaseClassWithFunction(234);
+q.name = 'borab'
+
+let r = q.getProperties();
+l(r)
+
+// function overloading with Constructor - need to call super
+class DerivedFromBaseClassWithFunctionWithConstructor extends BaseClassWithFunction {
+  name: string;
+
+  constructor(_id: number) {
+    super(_id);
+  }
+
+  getProperties(): string {
+    return `${this.name}, ${super.getProperties()}`;
+  }
+}
+
+let s = new DerivedFromBaseClassWithFunctionWithConstructor(667);
+s.name = 'char'
+
+let t = s.getProperties();
+l(t)
 */
-l('// ');
+l('// abstract class');
 //# sourceMappingURL=app.js.map
